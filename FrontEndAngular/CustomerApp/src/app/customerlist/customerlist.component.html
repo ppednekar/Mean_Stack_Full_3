@@ -1,32 +1,199 @@
+<div class="wrapper">
 
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
 
+  <table align="center" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-
-<table align="center" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef mat-sort-heade> No. </th>
-      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Created On </th>
+      <td mat-cell *matCellDef="let element"> {{element.date}} </td>
     </ng-container>
-  
-    <!-- Name Column -->
+
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-heade> Name </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
-  
-    <!-- Weight Column -->
-    <ng-container matColumnDef="weight">
-      <th mat-header-cell *matHeaderCellDef mat-sort-heade> Weight </th>
-      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+
+    <ng-container matColumnDef="gender">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
+      <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
     </ng-container>
-  
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="symbol">
-      <th mat-header-cell *matHeaderCellDef mat-sort-heade> Symbol </th>
-      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+      <td mat-cell *matCellDef="let element"> {{element.address}} </td>
     </ng-container>
-  
+
+    <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> City </th>
+      <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="state">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> State </th>
+      <td mat-cell *matCellDef="let element"> {{element.state}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="country">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Country </th>
+      <td mat-cell *matCellDef="let element"> {{element.country}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="hobbies">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Hobbies </th>
+      <td mat-cell *matCellDef="let element"> {{element.hobbies}} </td>
+    </ng-container>
+
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click) = "rowClicked(row)"></tr> -->
+    <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowClicked(row)" [ngClass]="{'highlightTableColor': selectedRowIndex == row.position}"></tr> -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" 
+    (click)="selectRow(row)" [ngClass]="{ 'selected': row === selectedRow }"> 
+</tr>
+ 
   </table>
+
+  <!-- Angular 8 pagination -->
+  <mat-paginator  class ="pagination"[pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+</div>
+
+<!-- Create Customer-->
+
+<div class="container">
+
+  <div style="margin: 30px">
+    <h1 class="ion-text-center">{{titleName}}</h1>
+
+    <form [formGroup]="loginForm">
+      <div class="form-group">
+        <label>Name*</label>
+        <input  formControlName="name" type="text" />
+      </div>
+      <div class="error-messages">
+        <ng-container *ngFor="let error of error_messages.name">
+          <div class="error-message"
+            *ngIf="loginForm.get('name').hasError(error.type) && (loginForm.get('name').touched)">
+            {{ error.message }}
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
+        <label>Gender*</label>
+        <!-- <input class="form-control" formControlName="gender" type="text" /> -->
+
+        <div>
+          <input class="form-control" id="male" type="radio" value="male" name="gender" formControlName="gender">
+          <label for="male">Male</label>
+       </div>
+    
+       <div>
+          <input class="form-control" id="female" type="radio" value="female" name="gender" formControlName="gender">
+          <label for="female">Female</label>
+       </div>
+
+       <div>
+        <input class="form-control" id="other" type="radio" value="other" name="gender" formControlName="gender">
+        <label for="other">Other</label>
+     </div>
+
+      </div>
+      <div class="error-messages">
+        <ng-container *ngFor="let error of error_messages.gender">
+          <div class="error-message"
+            *ngIf="loginForm.get('gender').hasError(error.type) && (loginForm.get('gender').dirty || loginForm.get('gender').touched)">
+            {{ error.message }}
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
+        <label>Address*</label>
+        <input class="form-control" formControlName="address" type="text" />
+      </div>
+      <div class="error-messages">
+        <ng-container *ngFor="let error of error_messages.address">
+          <div class="error-message" *ngIf="loginForm.get('address').hasError(error.type) && 
+    (loginForm.get('address').dirty || loginForm.get('address').touched)">
+            {{ error.message }}
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
+        <label>City*</label>
+        <input class="form-control" formControlName="city" type="text" />
+      </div>
+      <div class="error-messages">
+        <ng-container *ngFor="let error of error_messages.city">
+          <div class="error-message"
+            *ngIf="loginForm.get('city').hasError(error.type) && (loginForm.get('city').dirty || loginForm.get('city').touched)">
+            {{ error.message }}
+          </div>
+        </ng-container>
+      </div>
+
+
+      <div class="form-group">
+        <label>State*</label>
+        <input class="form-control" formControlName="state" type="text" />
+      </div>
+      <div class="error-messages">
+        <ng-container *ngFor="let error of error_messages.state">
+          <div class="error-message"
+            *ngIf="loginForm.get('state').hasError(error.type) && (loginForm.get('state').dirty || loginForm.get('state').touched)">
+            {{ error.message }}
+          </div>
+        </ng-container>
+      </div>
+
+
+      <div class="form-group">
+        <label>Country*</label>
+        <input class="form-control" formControlName="country" type="text" />
+      </div>
+      <div class="error-messages">
+        <ng-container *ngFor="let error of error_messages.country">
+          <div class="error-message"
+            *ngIf="loginForm.get('country').hasError(error.type) && (loginForm.get('country').dirty || loginForm.get('country').touched)">
+            {{ error.message }}
+          </div>
+        </ng-container>
+      </div>
+
+
+      <div class="form-group">
+        <label>Hobbies*</label>
+        <!-- <input class="form-control" formControlName="hobbies" type="text" />
+         -->
+         
+         <form [formGroup]="myForm">
+          <div *ngFor="let data of hobbyData">
+            <input type="checkbox" [checked]="data.checked" (change)="onChange(data)"> {{data.name}}<br>
+          </div>
+        </form>
+        
+      </div>
+
+        <!-- <div class="error-messages">
+          <ng-container *ngFor="let error of error_messages.hobbies">
+            <div class="error-message"
+              *ngIf="loginForm.get('hobbies').hasError(error.type) && (loginForm.get('hobbies').dirty || loginForm.get('hobbies').touched)">
+              {{ error.message }}
+            </div>
+          </ng-container>
+        </div> -->
+
+        <div class="form-group">
+        <input type="file" name="profile" (change)="onFileSelect($event)" />
+      </div>
+
+      <button class="form-control btn btn-primary" (click)="submit()">{{buttonName}}</button>
+      <button class="form-control btn btn-primary" (click)="clear()">Clear</button>
+   
+    </form>
+  </div>
+</div>
