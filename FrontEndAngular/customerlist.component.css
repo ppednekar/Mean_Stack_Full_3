@@ -1,0 +1,44 @@
+table {
+    width: 90%;
+    align-items: center;
+    margin-top: 1em;
+  }
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+  .wrapper {
+    width: 100%;
+    padding: 1em;
+    background-color: aliceblue;
+  }
+  p {
+    font-family: Lato;
+  }
+  .error-message {
+    color: red;
+  }
+  input.ng-touched.ng-invalid {
+    border: 1px solid red;
+  }
+  .pagination{
+    display: flex;
+    justify-content: center;
+    background-color: aliceblue;
+
+  }
+
+  .container{
+    width: 100%;
+    align-items: center;
+    padding: 1em;
+    background-color:linen;
+  }
+
+  .selected {
+    background-color:lightgrey;
+  }
+  
+  img {
+    width: 30px;
+    height: 30px;
+  }
