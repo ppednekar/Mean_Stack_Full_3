@@ -77,7 +77,7 @@ router.post('/',  upload.single('image'),async (req, res) => {
     console.log("req.file",req.file);
 
     let imageUrl = req.file ?
-    process.env.HOST_NAME + process.env.PORT + '/images/' + req.file.filename
+    process.env.HOST_NAME + process.env.PORT + '/uploads/' + req.file.filename
     : "";
 
 
@@ -99,7 +99,7 @@ router.post('/',  upload.single('image'),async (req, res) => {
         const savedCustomerdata = await customer.save();
         res.json(savedCustomerdata)
     } catch (err) {
-        res.json({ message: err });
+        res.status(500).json({ message: err });
     }
 
 });
